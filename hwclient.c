@@ -1,8 +1,4 @@
-#include <zmq.h>
-
-#include <string.h>
-#include <stdio.h>
-#include <unistd.h>
+#include "zhelpers.h"
 
 int main(void)
 {
@@ -13,19 +9,12 @@ int main(void)
 
     for (int request_nbr = 0; request_nbr < 10; request_nbr++)
     {
-        zmq_msg_t request;
-        zmq_msg_init_size(&request, 5);
-        memcpy(zmq_msg_data(&request), "HeLlO", 5);
-        zmq_msg_send(&request, requestor, 0);
-        zmq_msg_close(&request);
-
-        zmq_msg_t reply;
-        zmq_msg_init(&reply);
-        int size = zmq_msg_recv(&reply, requestor, 0);
-        char *message = (char *)zmq_msg_data(&reply);
-        message[size] = '\0';
+        char *msg;
+        sprintf(msg, "HELLO %d", request_nbr);
+        s_send(requestor, msg);
+        char *message = s_recv(requestor);
         printf("Received %s %d\n", message, request_nbr);
-        zmq_msg_close(&reply);
+        free(message);
     }
     sleep(2);
     zmq_close(requestor);
