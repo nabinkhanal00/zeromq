@@ -1,19 +1,17 @@
 #include "zhelpers.h"
 #include <stdbool.h>
 
-int main()
-{
-    void *context = zmq_ctx_new();
+int main() {
+    void* context = zmq_ctx_new();
     assert(context);
 
-    void *publisher = zmq_socket(context, ZMQ_PUB);
+    void* publisher = zmq_socket(context, ZMQ_PUB);
     assert(publisher);
 
     int rc = zmq_bind(publisher, "tcp://*:5563");
     assert(rc == 0);
 
-    while (true)
-    {
+    while(true) {
         s_sendmore(publisher, "A");
         s_send(publisher, "We would not like to see this.");
 

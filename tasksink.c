@@ -1,28 +1,23 @@
 #include "zhelpers.h"
 
-int main(void)
-{
-    void *context = zmq_ctx_new();
-    void *receiver = zmq_socket(context, ZMQ_PULL);
-    int rc = zmq_bind(receiver, "tcp://*:5558");
+int main(void) {
+    void* context  = zmq_ctx_new();
+    void* receiver = zmq_socket(context, ZMQ_PULL);
+    int rc         = zmq_bind(receiver, "tcp://*:5558");
     assert(rc == 0);
 
-    char *string = s_recv(receiver);
+    char* string = s_recv(receiver);
     free(string);
 
     int64_t start_time = s_clock();
 
-    for (int task_nbr = 0; task_nbr < 100; task_nbr++)
-    {
+    for(int task_nbr = 0; task_nbr < 100; task_nbr++) {
 
-        char *string = s_recv(receiver);
+        char* string = s_recv(receiver);
         free(string);
-        if ((task_nbr / 10) * 100 == task_nbr)
-        {
+        if((task_nbr / 10) * 100 == task_nbr) {
             printf(":");
-        }
-        else
-        {
+        } else {
             printf(".");
         }
         fflush(stdout);

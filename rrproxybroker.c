@@ -8,8 +8,8 @@ int main()
     void *frontend = zmq_socket(context, ZMQ_ROUTER);
     void *backend = zmq_socket(context, ZMQ_DEALER);
 
-    zmq_bind(frontend, "tcp://*:5559");
-    zmq_bind(backend, "tcp://*:5560");
+    zmq_bind(frontend, "tcp://*:5560");
+    zmq_connect(backend, "tcp://localhost:5560");
 
     zmq_proxy(frontend, backend, NULL);
 

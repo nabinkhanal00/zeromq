@@ -1,15 +1,14 @@
 #include "zhelpers.h"
 
-int main()
-{
-    void *context = zmq_ctx_new();
+int main() {
+    void* context = zmq_ctx_new();
 
-    void *sender = zmq_socket(context, ZMQ_PUSH);
-    int rc = zmq_bind(sender, "tcp://*:5557");
+    void* sender = zmq_socket(context, ZMQ_PUSH);
+    int rc       = zmq_bind(sender, "tcp://*:5557");
     assert(rc == 0);
 
-    void *sink = zmq_socket(context, ZMQ_PUSH);
-    rc = zmq_connect(sink, "tcp://localhost:5558");
+    void* sink = zmq_socket(context, ZMQ_PUSH);
+    rc         = zmq_connect(sink, "tcp://localhost:5558");
     assert(rc == 0);
 
     printf("Enter when the workers are ready: ");
@@ -22,8 +21,7 @@ int main()
 
     int total_msec = 0; // total expected cost in msec
 
-    for (int task_nbr = 0; task_nbr < 100; task_nbr++)
-    {
+    for(int task_nbr = 0; task_nbr < 100; task_nbr++) {
         int workload = randof(10) + 1;
         total_msec += workload;
         char string[10];

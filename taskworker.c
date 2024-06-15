@@ -1,19 +1,17 @@
 #include "zhelpers.h"
 #include "zmq.h"
 
-int main()
-{
-    void *context = zmq_ctx_new();
-    void *receiver = zmq_socket(context, ZMQ_PULL);
-    int rc = zmq_connect(receiver, "tcp://localhost:5557");
+int main() {
+    void* context  = zmq_ctx_new();
+    void* receiver = zmq_socket(context, ZMQ_PULL);
+    int rc         = zmq_connect(receiver, "tcp://localhost:5557");
     assert(rc == 0);
 
-    void *sender = zmq_socket(context, ZMQ_PUSH);
+    void* sender = zmq_socket(context, ZMQ_PUSH);
     zmq_connect(sender, "tcp://localhost:5558");
 
-    while (1)
-    {
-        char *string = s_recv(receiver);
+    while(1) {
+        char* string = s_recv(receiver);
         printf("%s.", string);
         fflush(stdout);
 
